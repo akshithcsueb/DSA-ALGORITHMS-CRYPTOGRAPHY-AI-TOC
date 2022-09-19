@@ -1,0 +1,37 @@
+#include <iostream>
+#include <map>
+using namespace std;
+
+int main()
+{
+    map <int, int> check;
+
+    check.insert(pair<int, int> (6, 2));
+    check.insert(pair<int, int> (1, 8));
+    check.insert(pair<int, int> (4, 3));
+    check.insert(pair<int, int> (9, 1));
+    check.insert(pair<int, int> (2, 1));
+
+
+    // IF ELEMENT IS NOT THERE THEN IT PRODUCES VALUES THAT ARE NOT THERE IN MAP
+    auto i = check.find(4);
+    cout << i->first << ", " << i->second << endl;
+
+    // IT PRODUCES VALUES THAT ARE NOT THERE IN MAP, VALUES AFTER LAST ELEMENT (GARBAGE VALUES)
+    auto j = check.end();
+    cout << j->first << ", " << j->second << endl;
+
+    // WITH ABOVE THOSE TWO, WE CAN FIND WHETHER ELEMENT IS THERE OR NOT THERE IN MAP AS SHOWN BELOW
+    if(check.find(4) == check.end())
+    {
+        cout << "Element is not there !!!" << endl;
+    }
+    else
+    {
+        cout << "Element is there !!!" << endl;
+    }
+
+    // NOTE -
+    // IF WE INPUT AN ELEMENT INTO FIND FUNCTION WHICH IS NOT PRESENT IN MAP THEN IT WILL PRODUCES THE VALUES THAT SHOWS IN END FUNCTION.
+    // END FUNCTION SHOWS VALUES THAT ARE IN MAP AFTER THE LAST ELEMENT WHICH IS GARBAGE VALUES.
+}

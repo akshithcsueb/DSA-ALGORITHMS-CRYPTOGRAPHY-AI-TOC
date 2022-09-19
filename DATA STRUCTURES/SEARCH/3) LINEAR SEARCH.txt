@@ -1,0 +1,35 @@
+# include <iostream>
+using namespace std;
+
+void Linear_search(int array[], int size, int key)
+{
+    for(int i=0; i<size; i++)
+    {
+        if(array[i] == key)
+        {
+            cout << key << " is available" << endl;
+            return;
+        }
+    }
+    cout << key << " is not available" << endl;
+}
+
+int main()
+{
+    cout << "Enter the number of elements" << endl;
+    int size;
+    cin >> size;
+    int array[size];
+
+    cout << "Enter elements one by one" << endl;
+    for(int i=0; i<size; i++)
+    {
+        cin >> array[i];
+    }
+
+    cout << "Enter the number you want to search" << endl;
+    int key;
+    cin >> key;
+
+    Linear_search(array, size, key);
+}

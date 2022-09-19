@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+template <class T>
+class vegetable
+{
+public:
+    T display(T value);
+
+};
+
+template <class T>
+T vegetable <T> :: display(T value)
+{
+    cout << value << endl;
+}
+
+int main()
+{
+    vegetable<int> obj;
+    obj.display(7);
+}

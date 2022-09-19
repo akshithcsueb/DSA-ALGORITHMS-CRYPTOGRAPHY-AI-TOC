@@ -1,0 +1,256 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <map>
+using namespace std;
+
+struct node
+{
+    node *left = nullptr;
+    int data;
+    node *right = nullptr;
+};
+
+class binary_tree
+{
+public:
+    void add(int value);
+    void del(int value);
+    void check(int value);
+    void display(int order); // DFS - PREORDER, INORDER, POSTORDER - RECURSION METHOD
+    void level_order_display(); // BFS - GOING LEVEL BY LEVEL - ITERATIVE METHOD
+
+private:
+    node *root = nullptr;
+    node *temp = nullptr;
+    queue <node*> all_elements;
+    node* del_helper(node *tree, int value);
+    node* del_find_right_min(node *tree);
+    void display_helper(node *tree, int order);
+    void level_order_display_helper(node *tree);
+};
+
+void binary_tree :: add(int value)
+{
+    if(root == nullptr)
+    {
+        root = new node;
+        root->data = value;
+    }
+    else
+    {
+        temp = root;
+
+        while(true)
+        {
+            if(value < temp->data)
+            {
+                if(temp->left == nullptr)
+                {
+                    temp->left = new node;
+                    temp = temp->left;
+                    temp->data = value;
+                    return;
+                }
+
+                temp = temp->left;
+            }
+            else if(value > temp->data)
+            {
+                if(temp->right == nullptr)
+                {
+                    temp->right = new node;
+                    temp = temp->right;
+                    temp->data = value;
+                    return;
+                }
+
+                temp = temp->right;
+            }
+        }
+    }
+}
+
+void binary_tree :: del(int value)
+{
+    if(root == nullptr)
+    {
+        cout << "Tree is empty - nothing to delete" << endl;
+    }
+    else
+    {
+        del_helper(root, value);
+    }
+}
+
+node* binary_tree :: del_helper(node *tree, int value)
+{
+    if(value < tree->data)
+    {
+        tree->left = del_helper(tree->left, value);
+    }
+    else if(value > tree->data)
+    {
+        tree->right = del_helper(tree->right, value);
+    }
+    else if(value == tree->data)
+    {
+        if(tree->left == nullptr && tree->right == nullptr)
+        {
+            delete tree;
+            tree = nullptr;
+        }
+        else if(tree->left == nullptr && tree->right != nullptr)
+        {
+            temp = tree;
+            temp = temp->right;
+            delete tree;
+            tree = temp;
+        }
+        else if(tree->left != nullptr && tree->right == nullptr)
+        {
+            temp = tree;
+            temp = temp->left;
+            delete tree;
+            tree = temp;
+        }
+        else if(tree->left != nullptr && tree->right != nullptr)
+        {
+            temp = del_find_right_min(tree->right);
+
+            tree->data = temp->data;
+            tree->right = del_helper(tree->right, tree->data);
+        }
+
+    }
+    return tree;
+}
+
+node* binary_tree :: del_find_right_min(node *tree)
+{
+    while(tree->left != nullptr)
+    {
+        tree = tree->left;
+    }
+
+    return tree;
+}
+
+void binary_tree :: check(int value)
+{
+    if(root == nullptr)
+    {
+        cout << "Tree is empty - nothing to check" << endl;
+        return;
+    }
+
+    temp = root;
+
+    while(temp != nullptr)
+    {
+        if(value == temp->data)
+        {
+            cout << value << " is in tree" << endl;
+            return;
+        }
+        else if(value < temp->data)
+        {
+            temp = temp->left;
+        }
+        else if(value > temp->data)
+        {
+            temp = temp->right;
+        }
+    }
+
+    cout << value << " is not in tree" << endl;
+}
+
+void binary_tree :: display(int order)
+{
+    if(root == nullptr)
+    {
+        cout << "Tree is empty - nothing to display" << endl;
+        return;
+    }
+    else
+    {
+        display_helper(root, order);
+    }
+}
+
+void binary_tree :: display_helper(node *tree, int order)
+{
+    if(tree == nullptr)
+    {
+        return;
+    }
+
+    if(order == 0)
+    {
+        cout << tree->data << endl;
+        display_helper(tree->left, order);
+        display_helper(tree->right, order);
+    }
+    else if(order == 1)
+    {
+        display_helper(tree->left, order);
+        cout << tree->data << endl;
+        display_helper(tree->right, order);
+    }
+    else if(order == 2)
+    {
+        display_helper(tree->left, order);
+        display_helper(tree->right, order);
+        cout << tree->data << endl;
+    }
+}
+
+void binary_tree :: level_order_display()
+{
+    if(root == nullptr)
+    {
+        cout << "Tree is empty - nothing to display";
+        return;
+    }
+    else
+    {
+        level_order_display_helper(root);
+    }
+}
+
+void binary_tree :: level_order_display_helper(node *tree)
+{
+    all_elements.push(tree);
+
+    while(!all_elements.empty())
+    {
+        auto i = all_elements.front();
+        all_elements.pop();
+        cout << i->data << endl;
+
+        if(i->left != nullptr)
+        {
+            all_elements.push(i->left);
+        }
+        if(i->right != nullptr)
+        {
+            all_elements.push(i->right);
+        }
+    }
+}
+
+int main()
+{
+     binary_tree obj;
+
+     obj.add(8);
+     obj.add(5);
+     obj.add(2);
+     obj.add(7);
+     obj.add(19);
+     obj.add(12);
+     obj.add(21);
+
+     obj.level_order_display();
+}

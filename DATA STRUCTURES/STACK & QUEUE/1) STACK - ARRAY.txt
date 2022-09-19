@@ -1,0 +1,64 @@
+#include <iostream>
+using namespace std;
+
+const int arr_max = 10;
+
+class my_stack
+{
+public:
+    int stack_array[arr_max];
+    int point = 0;
+
+    void push(int item);
+    void pop();
+    void display();
+};
+
+void my_stack :: push (int item)
+{
+    if(point == arr_max)
+    {
+        cout << "STACK IS FULL - CANNOT ADD " << item << endl;
+    }
+    else
+    {
+        stack_array[point] = item;
+        point++;
+        cout << "SUCCESSFULLY PUSHED " << item << endl;
+    }
+}
+
+void my_stack :: pop()
+{
+    if(point == 0)
+    {
+        cout << "STACK IS EMPTY - NOTHING TO DELETE" << endl;
+        return;
+    }
+    else
+    {
+        point--;
+        cout << "SUCCESSFULLY POPED " << stack_array[point] << endl;
+    }
+}
+
+void my_stack :: display()
+{
+    cout << "THE ITEMS IN THE STACK ARE - " << endl;
+    for(int i=(point - 1); i>=0; i--)
+    {
+        cout << stack_array[i] << endl;
+    }
+}
+
+int main()
+{
+    my_stack stock;
+
+    stock.push(2);
+    stock.push(6);
+    stock.push(3);
+    stock.pop();
+
+    stock.display();
+}

@@ -1,0 +1,90 @@
+#include "iostream"
+#include "vector"
+#include "math.h"
+using namespace std;
+
+vector<int> max_pooling_function(int width_image, int height_image, int filters, int box_value)
+{
+    cout << "From your Max Pooling " << box_value+1 << " box answer the following questions" << endl;
+    cout << "What is filter size - " << endl;
+    int filter;
+    cin >> filter;
+
+    cout << "What is stride size - " << endl;
+    int stride;
+    cin >> stride;
+
+    int value1;
+    value1 = floor(((width_image-filter)/stride) + 1);
+
+    int value2;
+    value2 = floor(((height_image-filter)/stride) + 1);
+
+    int value3;
+    value3 = filters;
+
+    vector<int> value = {value1, value2, value3};
+    return value;
+}
+
+vector<int> relu_function(int width_image, int height_image, int box_value)
+{
+    cout << "From your Conv-" << box_value+1 << "/ReLU box answer the following questions" << endl;
+    cout << "How many filters - " << endl;
+    int filters;
+    cin >> filters;
+
+    cout << "what is filter size - " << endl;
+    int filter;
+    cin >> filter;
+
+    cout << "What is padding size - " << endl;
+    int padding;
+    cin >> padding;
+
+    cout << "What is stride size - " << endl;
+    int stride;
+    cin >> stride;
+
+    int value1;
+    value1 = floor(((width_image-filter+(2*padding))/stride) + 1);
+
+    int value2;
+    value2 = floor(((height_image-filter+(2*padding))/stride) + 1);
+
+    int value3;
+    value3 = filters;
+
+    vector<int> value = max_pooling_function(value1, value2, value3, box_value);
+    return value;
+}
+
+int main()
+{
+    cout << "How many layers are in this network?" << endl;
+    int layers;
+    cin >> layers;
+
+    cout << "What is the image size width - " << endl;
+    int width_image;
+    cin >> width_image;
+
+    cout << "What is the image size height - " << endl;
+    int height_image;
+    cin >> height_image;
+
+    vector<int> value;
+    for(int i=0; i<layers; i++)
+    {
+        if(i==0)
+        {
+            value = relu_function(width_image, height_image, i);
+        }
+        else
+        {
+            value = relu_function(value[0], value[1], i);
+        }
+    }
+    int flatten = value[0] * value[1] * value[2];
+    cout << "After flattening the last layer, it consists of " << flatten << " neurons." << endl;
+}

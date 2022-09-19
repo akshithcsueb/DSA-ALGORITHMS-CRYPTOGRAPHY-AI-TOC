@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    // GET LENGTH OF ARRAY FROM USER
+    cout << "Enter length of the array" << endl;
+    int arr_len;
+    cin >> arr_len;
+
+    // GET ELEMENTS OF ARRAY FROM USER
+    cout << "Input " << arr_len << " elements one by one" << endl;
+    int array[5];
+    for(int i=0; i<arr_len; i++)
+    {
+        cin >> array[i];
+    }
+
+    // GET TARGET VALUE FROM USER
+    cout << "Enter the target" << endl;
+    int target;
+    cin >> target;
+
+    // FINDING TARGET IN ARRAY
+    int cal;
+    for(int i=0; i<arr_len; i++)
+    {
+        for(int j=0; j<arr_len; j++)
+        {
+            if(i == j)
+            {
+                continue;
+            }
+            else
+            {
+                cal = array[i] +array[j];
+
+                if(cal == target)
+                {
+                    cout << i << "," << j << endl;
+                    return 0;
+                }
+            }
+        }
+    }
+    cout << "target is not in the array" << endl;
+}

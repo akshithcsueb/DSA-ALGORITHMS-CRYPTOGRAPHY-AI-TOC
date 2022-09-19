@@ -1,0 +1,35 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int i = 1;
+
+void check(ostream &output);
+void save(ostream &output);
+
+void check(ostream &output)
+{
+    save(output);
+}
+
+void save(ostream &output)
+{
+    while(i<=5)
+    {
+        string arr[5] = {"hello", "bye", "kat", "karan", "pom"};
+
+        output << arr[i-1] << endl;
+
+        i++;
+
+        save(output);
+    }
+}
+
+int main()
+{
+    ofstream solve;
+    solve.open("C:/Users/akshi/OneDrive/Documents/TEMPORARY ASSIGNMENTS/dict.txt");
+    check(solve);
+    solve.close();
+}

@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+
+class test
+{
+public:
+    int num1;
+    int num2;
+
+    test();
+    test(int x, int y);
+    test(const test &cc);
+};
+
+// DEFAULT CONSTRUCTOR
+test :: test()
+{
+    num1 = 5;
+    num2 = 6;
+}
+
+// PARAMETERISED CONSTRUCTOR
+test :: test(int x, int y)
+{
+    num1 = x;
+    num2 = y;
+}
+
+// COPY CONSTRUCTOR
+test :: test(const test &cc)
+{
+    num1 = cc.num1;
+    num2 = cc.num2;
+}
+
+int main()
+{
+    test obj(3, 8);
+
+    cout << obj.num1 << endl;
+    cout << obj.num2 << endl;
+
+    test obj1;
+
+    cout << obj1.num1 << endl;
+    cout << obj1.num2 << endl;
+
+    test obj2 = obj;
+
+    cout << obj2.num1 << endl;
+    cout << obj2.num2 << endl;
+}

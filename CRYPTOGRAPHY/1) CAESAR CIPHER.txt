@@ -1,0 +1,43 @@
+#-------------------------------------------------------------- CAESAR/SHIFT CIPHER-------------------------------------------------------
+# Rotate function
+def rotate(n, alpha_list):
+    return alpha_list[n:] + alpha_list[:n]
+
+# Map function
+def map(alpha_list, permlist):
+    dict = {}
+
+    for i, v in enumerate(alpha_list):
+        dict[v] = permlist[i]
+
+    return dict
+
+# Encrypt function
+def encrypt(plain_text, alpha_list, cipher_map):
+    plain_text = plain_text.upper()
+    cipher_txt = ""
+    
+    for char in plain_text:
+        if char in alpha_list:
+            cipher_txt = cipher_txt + cipher_map[char]
+        else:
+            cipher_txt = cipher_txt + char
+
+    return cipher_txt
+
+# Decrypt function
+def decrypt(cipher_text, alpha_list, n):
+    return encrypt(cipher_text, alpha_list, map(alpha_list, rotate(n, alpha_list)))
+
+#--------------------------------------- Main program-------------------------------------------------
+
+alpha_list = "ABCDEFGHIJKLMONPQRSTUVWXYZ"
+plain_txt = "Time to go Windsurfing"
+
+# Encryption usage
+cipher_text = encrypt(plain_txt, alpha_list, map(alpha_list, rotate(6, alpha_list)))
+print(cipher_text)
+
+# Decryption usage
+plain_text = decrypt(cipher_text, alpha_list, 20)
+print(plain_text)

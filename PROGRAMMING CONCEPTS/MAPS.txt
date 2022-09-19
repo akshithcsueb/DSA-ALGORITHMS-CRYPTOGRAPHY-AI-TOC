@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+#include <map>
+using namespace std;
+
+int main()
+{
+    map <int, int> count;
+
+    //count.insert(pair<int, int> (1, 8));
+
+    count[1]++;
+    count[3]++;
+    count[3]++;
+    count[4]++;
+    count[7]++;
+    count[1]++;
+    count[3]++;
+
+//    for(auto i=count.begin(); i!=count.end(); i++)
+//    {
+//        cout << i->first << "---" << i->second << endl;
+//    }
+
+    int value;
+    int num = 0;
+
+    for(auto i=count.begin(); i!=count.end(); i++)
+    {
+        if(i->second > num)
+        {
+            num = i->second;
+            value = i->first;
+        }
+    }
+
+    cout << value << endl;
+}

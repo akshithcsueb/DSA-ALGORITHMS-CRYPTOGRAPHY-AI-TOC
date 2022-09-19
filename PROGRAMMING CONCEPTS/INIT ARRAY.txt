@@ -1,0 +1,36 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+void init_arr(string filename, int val[], int& len)
+{
+    ifstream datafile;
+    datafile.open(filename);
+
+    if(datafile.fail())
+    {
+        cout << "FILE NOT THERE!!!" << endl;
+    }
+
+    int i=0;
+    while(datafile >> val[i++]);
+    len = i-1;
+}
+
+void check(int arr[], int tot)
+{
+    for(int i=0; i<tot; i++)
+    {
+        cout << arr[i] << endl;
+    }
+}
+
+int main()
+{
+    int val[100];
+    int len;
+
+    init_arr("C:/Users/akshi/OneDrive/Documents/Temp work/data.txt", val, len);
+
+    check(val, len);
+}

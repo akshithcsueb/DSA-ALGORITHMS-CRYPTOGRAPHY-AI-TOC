@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    // GETS ARRAY LENGTH FROM THE USER
+    cout << "Enter the length of the array" << endl;
+    int array_length;
+    cin >> array_length;
+
+    // GETS VALUES OF ARRAY FROM USER
+    cout << "Enter " << array_length << " values one by one" << endl;
+    int array[array_length];
+    for(int i=0; i<array_length; i++)
+    {
+        cin >> array[i];
+    }
+
+    // AREA CALCULATION
+    int length, start, end;
+    int width, point1, point2;
+    int area;
+    int max_area = 0;
+
+    for(int i=0; i<(array_length-1); i++)
+    {
+        for(int j=i+1; j<array_length; j++)
+        {
+            start = i;
+            end = j;
+            length = end-start;
+
+            point1 = array[i];
+            point2 = array[j];
+            width = min(point1, point2);
+
+            area = length * width;
+
+            if(area > max_area)
+            {
+                max_area = area;
+            }
+        }
+    }
+
+    cout << "The maximum area is - " << max_area << endl;
+}

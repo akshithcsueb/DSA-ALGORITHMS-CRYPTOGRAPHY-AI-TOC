@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+class test
+{
+public:
+    int num1;
+    int num2;
+
+    test(int x, int y);
+};
+
+// PARAMETERISED CONSTRUCTOR
+test :: test(int x, int y)
+{
+    num1 = x;
+    num2 = y;
+}
+
+int main()
+{
+    test obj(3, 8);
+
+    cout << obj.num1 << endl;
+    cout << obj.num2 << endl;
+}

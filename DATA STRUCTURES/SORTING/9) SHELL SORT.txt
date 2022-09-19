@@ -1,0 +1,79 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void shell_sort_helper(vector<int> &array, int start, int end, int gap)
+{
+    // USED TO CHECK FORWARD ELEMENTS
+    while(end < array.size())
+    {
+        if(array[start] > array[end])
+        {
+            swap(array[start], array[end]);
+
+            // USED TO CHECK BACKWARD ELEMENTS
+            int current = start;
+            int previous = start - gap;
+            if(previous >= 0)
+            {
+                while(previous >= 0)
+                {
+                    if(array[previous] > array[current])
+                    {
+                        swap(array[previous], array[current]);
+
+                        current = previous;
+                        previous = previous - gap;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        start++;
+        end++;
+    }
+}
+
+void shell_sort(vector<int> &array)
+{
+    int start;
+    int end;
+    int gap = (array.size())/2;
+
+    while(gap >= 1)
+    {
+        start = 0;
+        end = gap;
+        shell_sort_helper(array, start, end, gap);
+        gap = gap/2;
+    }
+}
+
+int main()
+{
+    cout << "Enter the number of elements you need to sort" << endl;
+    int size;
+    cin >> size;
+
+    cout << "Enter the elements one by one" << endl;
+    vector<int> array(size);
+    for(int i=0; i<size; i++)
+    {
+        int temp;
+        cin >> temp;
+        array[i] = temp;
+    }
+
+    shell_sort(array);
+
+    for(int i=0; i<size; i++)
+    {
+        cout << array[i] << " ";
+    }
+}
+
+// Space - O(1)
+// Time - O(n^2)

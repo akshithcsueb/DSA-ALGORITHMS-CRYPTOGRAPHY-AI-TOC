@@ -1,0 +1,116 @@
+// Use for normal or if padding alone not stride / If u r using for padding add paading to the original table and give that rows and cols values as input to the code input rows and cols
+
+#include "iostream"
+#include "vector"
+#include "string"
+using namespace std;
+
+void convolution(int input_rows, int input_cols, int filter_rows, int filter_cols, int output_rows, int output_cols, vector<vector<int>> input, vector<vector<int>> filter, vector<vector<int>> output)
+{
+    // Core Logic
+    for(int i=0; i<output_rows; i++)
+    {
+        for(int j=0; j<output_cols; j++)
+        {
+            int temp = 0;
+
+            for(int fi=0; fi<filter_rows; fi++)
+            {
+                for(int fj=0; fj<filter_cols; fj++)
+                {
+                    temp = temp + (input[i+fi][j+fj] * filter[fi][fj]);
+                }
+            }
+
+            output[i][j] = temp;
+        }
+    }
+
+    // Displaying outputs
+
+    for(int i=0; i<input_rows; i++)
+    {
+        for(int j=0; j<input_cols; j++)
+        {
+            cout << input[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+
+    for(int i=0; i<filter_rows; i++)
+    {
+        for(int j=0; j<filter_cols; j++)
+        {
+            cout << filter[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+
+    for(int i=0; i<output_rows; i++)
+    {
+        for(int j=0; j<output_cols; j++)
+        {
+            cout << output[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+int main()
+{
+    cout << "Welcome to Convolution Calculator" << endl;
+
+    cout << "How many input rows are there?" << endl;
+    int input_rows;
+    cin >> input_rows;
+    cout << "How many input columns are there?" << endl;
+    int input_cols;
+    cin >> input_cols;
+
+    cout << "Please enter the input values one by one " << endl;
+    vector<vector<int>> input(input_rows, vector<int>(input_cols));
+    for(int i=0; i<input_rows; i++)
+    {
+        for(int j=0; j<input_cols; j++)
+        {
+            int temp;
+            cin >> temp;
+            input[i][j] = temp;
+        }
+    }
+
+    cout << "How many filter rows are there?" << endl;
+    int filter_rows;
+    cin >> filter_rows;
+    cout << "How many filter cols are there?" << endl;
+    int filter_cols;
+    cin >> filter_cols;
+
+    cout << "Please enter the filter values one by one " << endl;
+    vector<vector<int>> filter(filter_rows, vector<int>(filter_cols));
+    for(int i=0; i<filter_rows; i++)
+    {
+        for(int j=0; j<filter_cols; j++)
+        {
+            int temp;
+            cin >> temp;
+            filter[i][j] = temp;
+        }
+    }
+
+    int output_rows;
+    int output_cols;
+
+    if(input_rows == input_cols && filter_rows == filter_cols)
+    {
+        int temp = input_rows - filter_rows + 1;
+        output_rows = temp;
+        output_cols = temp;
+    }
+
+    vector<vector<int>> output(output_rows, vector<int>(output_cols));
+
+    convolution(input_rows, input_cols, filter_rows, filter_cols, output_rows, output_cols, input, filter, output);
+}

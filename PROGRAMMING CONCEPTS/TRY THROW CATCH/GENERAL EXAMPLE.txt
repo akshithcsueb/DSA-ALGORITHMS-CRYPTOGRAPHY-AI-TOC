@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int x = 10;
+
+    try
+    {
+        if(x < 15)
+        {
+            throw x;
+        }
+
+        cout << x << endl;
+    }
+
+    catch(int x)
+    {
+        cout << x << " is not allowed" << endl;
+    }
+}

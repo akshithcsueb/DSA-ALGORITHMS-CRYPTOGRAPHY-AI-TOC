@@ -1,0 +1,112 @@
+#include <iostream>
+using namespace std;
+
+struct node;
+
+class my_queue
+{
+public:
+    void enqueue(int item);
+    void dequeue();
+    void display();
+
+    node *head = nullptr;
+    node *cur_node = nullptr;
+    node *temp_node = nullptr;
+    node *prev_node = nullptr;
+};
+
+struct node
+{
+    int data;
+    node *next;
+};
+
+void my_queue :: enqueue(int item)
+{
+    if(cur_node == nullptr)
+    {
+        node *temp = new node;
+        temp -> data = item;
+        temp -> next = nullptr;
+
+        head = temp;
+        cur_node = temp;
+        cout << "SUCCESSFULLY ENQUEUED ITEM " << item << endl;
+    }
+    else
+    {
+        node *temp = new node;
+        temp -> data = item;
+        temp -> next = head;
+
+        head = temp;
+        cur_node = temp;
+        cout << "SUCCESSFULLY ENQUEUED ITEM " << item << endl;
+    }
+}
+
+void my_queue :: dequeue()
+{
+    if(cur_node == nullptr)
+    {
+        cout << "QUEUE IS EMPTY - NOTHING TO DEQUEUE" << endl;
+        return;
+    }
+
+    if(cur_node -> next == nullptr)
+    {
+        cout << "SUCCESSFULLY DEQUEUED " << cur_node -> data << endl;
+
+        delete cur_node;
+
+        head = nullptr;
+        cur_node = nullptr;
+    }
+    else
+    {
+        temp_node = cur_node;
+
+        while(temp_node != nullptr)
+        {
+            if(temp_node -> next == nullptr)
+            {
+                cout << "SUCCESSFULLY DEQUEUED " << temp_node -> data << endl;
+
+                delete temp_node;
+                prev_node -> next = nullptr;
+                return;
+            }
+
+            prev_node = temp_node;
+            temp_node = temp_node -> next;
+        }
+    }
+}
+
+void my_queue :: display()
+{
+    cout << "THE ITEMS IN THE QUEUE ARE - " << endl;
+
+    temp_node = cur_node;
+
+    while(temp_node != nullptr)
+    {
+        cout << temp_node -> data << endl;
+
+        temp_node = temp_node -> next;
+    }
+}
+
+int main()
+{
+    my_queue orders;
+
+    orders.enqueue(3);
+    orders.enqueue(5);
+    orders.enqueue(9);
+    orders.dequeue();
+
+
+    orders.display();
+}

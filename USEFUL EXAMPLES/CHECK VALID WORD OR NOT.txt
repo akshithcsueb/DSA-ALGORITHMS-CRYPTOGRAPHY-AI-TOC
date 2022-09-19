@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    string word = "ro&w";
+
+    for(int i=0; i<word.length(); i++)
+    {
+        int index = (int) word[i] - (int)'a';
+
+        if(index >=0 && index <=26)
+        {
+            continue;
+        }
+        else
+        {
+            cout << word << " is not a valid word" << endl;
+            return 0;
+        }
+    }
+    cout << word << " is a valid word" << endl;
+}

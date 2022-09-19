@@ -1,0 +1,116 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int amount = 500;
+
+void deposit(int *pamount)
+{
+    int dep_val;
+    printf("Enter the amount to deposit \n");
+    scanf("%d", &dep_val);
+    *pamount = *pamount + dep_val;
+    printf("The amount %d deposited successfully \n", dep_val);
+    printf("Your current balance is %d \n\n", amount);
+}
+
+void less_balance_check(int lbc_wit_val)
+{
+    if(lbc_wit_val > amount)
+    {
+        printf("THE TRANSACTION CANCELLED \n");
+        printf("YOUR CURRENT BALANCE IS %d ONLY, PLEASE WITHDRAW ACCORDINGLY \n\n", amount);
+        exit(0);
+    }
+}
+
+void withdraw(int *pamount)
+{
+    int wit_val;
+    printf("Enter the amount to withdraw \n");
+    scanf("%d", &wit_val);
+    less_balance_check(wit_val);
+    *pamount = *pamount - wit_val;
+    printf("The amount %d withdrawn successfully \n", wit_val);
+    printf("Your current balance is %d \n\n", amount);
+}
+
+void balance()
+{
+    printf("Your current balance is %d \n\n", amount);
+}
+
+void cancel()
+{
+    printf("THANK YOU FOR USING PCA BANK \n\n");
+    exit(0);
+}
+
+void operation()
+{
+    int option;
+        printf("Please select one of the option below \n");
+        printf("1. DEPOSIT   2. WITHDRAW   3.BALANCE 4. CANCEL \n");
+        scanf("%d", &option);
+
+        switch(option)
+        {
+        case 1:
+            printf("DEPOSIT \n");
+            deposit(&amount);
+            break;
+
+        case 2:
+            printf("WITHDRAW \n");
+            withdraw(&amount);
+            break;
+
+        case 3:
+            printf("BALANCE \n");
+            balance();
+            break;
+
+        case 4:
+            printf("CANCEL \n");
+            cancel();
+            break;
+
+        default:
+            printf("INVALID OPTION \n");
+        }
+}
+
+void operation_cont()
+{
+    int value = 1;
+    while(value == 1)
+    {
+        operation();
+        printf("DO YOU WANT TO PERFORM SOME OTHER TRANSACTIONS - PLEASE SEE OPTIONS BELOW \n");
+        printf("PRESS 1 TO CONTINUE \n      2 TO EXIT \n");
+        scanf("%d", &value);
+    }
+    while(value == 2)
+    {
+        cancel();
+    }
+}
+
+int main()
+{
+    printf("Welcome to PCA bank \n\n");
+
+    int userid;
+    printf("Enter your userid \n");
+    scanf("%d", &userid);
+
+    if(userid == 108)
+    {
+        printf("Welcome akshith \n\n");
+
+        operation_cont();
+    }
+    else
+    {
+        printf("INVALID USERID \n");
+    }
+}

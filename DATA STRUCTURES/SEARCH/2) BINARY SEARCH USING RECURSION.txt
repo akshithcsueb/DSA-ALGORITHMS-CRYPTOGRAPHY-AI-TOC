@@ -1,0 +1,57 @@
+# include <iostream>
+using namespace std;
+
+void binary_search(int *array, int size, int key)
+{
+    int mid = size/2;
+
+    if(key == array[mid])
+    {
+        cout << key << " is available" << endl;
+        return;
+    }
+    else if((key != array[mid] && size == 1) || (key != array[mid] && size == 0) )
+    {
+        cout << key << " is not available" << endl;
+    }
+    else if(key < array[mid])
+    {
+        int left_array[mid];
+        for(int i=0; i<mid; i++)
+        {
+            left_array[i] = array[i];
+        }
+
+        binary_search(left_array, mid, key);
+    }
+    else if(key > array[mid])
+    {
+        int right_array[size-(mid+1)];
+        for(int i=mid+1; i<size; i++)
+        {
+            right_array[i-(mid+1)] = array[i];
+        }
+
+        binary_search(right_array, (size-(mid+1)), key);
+    }
+}
+
+int main()
+{
+    cout << "Enter the number of elements" << endl;
+    int size;
+    cin >> size;
+    int array[size];
+
+    cout << "Enter elements one by one" << endl;
+    for(int i=0; i<size; i++)
+    {
+        cin >> array[i];
+    }
+
+    cout << "Enter the number you want to search" << endl;
+    int key;
+    cin >> key;
+
+    binary_search(array, size, key);
+}

@@ -1,0 +1,127 @@
+// DEL FUNCTION IS PENDING
+
+#include <iostream>
+using namespace std;
+
+struct node
+{
+    node *letters[26] = {nullptr};
+    bool is_word = false;
+};
+
+class Trie_tree
+{
+public:
+    void add(string word);
+    void del(string word);
+    void check(string word);
+    void path(string word);
+
+private:
+    node *root = new node;
+    node *temp = nullptr;
+    node *del_help = nullptr;
+};
+
+void Trie_tree :: add(string word)
+{
+    temp = root;
+
+    for(int i=0; i<word.size(); i++)
+    {
+        int index = int(word[i]) - int('a');
+
+        if(temp->letters[index] == nullptr)
+        {
+            temp->letters[index] = new node;
+        }
+
+        temp = temp->letters[index];
+    }
+
+    temp->is_word = true;
+}
+
+void Trie_tree :: del(string word)
+{
+    temp = root;
+    int index;
+
+    for(int i=0; i<word.size(); i++)
+    {
+        index = int(word[i]) - int('a');
+
+        del_help = temp;
+        temp = temp->letters[index];
+    }
+
+    for(int i=0; i<26; i++)
+    {
+        if(temp->letters[i] != nullptr)
+        {
+            return;
+        }
+    }
+    delete temp;
+    del_help->letters[index] = nullptr;
+}
+
+void Trie_tree :: check(string word)
+{
+    temp = root;
+
+    for(int i=0; i<word.size(); i++)
+    {
+        int index = int(word[i]) - int('a');
+
+        if(temp->letters[index]  == nullptr)
+        {
+            cout << word << " is not in dictionary" << endl;
+            return;
+        }
+
+        temp = temp->letters[index];
+    }
+
+    if(temp->is_word == true)
+    {
+        cout << word << " is in dictionary" << endl;
+    }
+    else
+    {
+        cout << word << " is not in dictionary" << endl;
+    }
+}
+
+void Trie_tree :: path(string word)
+{
+    temp = root;
+
+    for(int i=0; i<word.size(); i++)
+    {
+        int index = int(word[i]) - int('a');
+
+        if(temp->letters[index] == nullptr)
+        {
+            cout << word << " is not a path in dictionary" << endl;
+            return;
+        }
+
+        temp = temp->letters[index];
+    }
+
+    cout << word << " is a path in dictionary" << endl;
+}
+
+int main()
+{
+    Trie_tree obj;
+
+    obj.add("cab");
+    obj.add("akshith");
+    obj.add("cake");
+
+    obj.del("cab");
+
+    obj.path("ca");
+}

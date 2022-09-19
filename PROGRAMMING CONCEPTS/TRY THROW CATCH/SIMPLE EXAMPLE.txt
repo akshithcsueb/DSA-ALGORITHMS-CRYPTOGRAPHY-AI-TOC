@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+
+class Invalid_ID
+{
+public:
+    string msg()
+    {
+        return "INVALID ID !!!";
+    }
+};
+
+int main()
+{
+    try
+    {
+        int x = 120;
+
+        if(x < 15)
+        {
+            cout << "ACCESS GRANTED" << endl;
+        }
+        else
+        {
+            throw Invalid_ID();
+        }
+    }
+
+    catch(Invalid_ID error)
+    {
+        cout << error.msg() << endl;
+    }
+}

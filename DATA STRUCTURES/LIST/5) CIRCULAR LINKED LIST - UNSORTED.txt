@@ -1,0 +1,172 @@
+#include <iostream>
+using namespace std;
+
+struct node
+{
+    int data;
+    node *next;
+};
+
+class Circular_linked_list
+{
+public:
+    void add(int value);
+    void del(int value);
+    void check(int value);
+    void display();
+
+    node *head = nullptr;
+    node *tail = nullptr;
+    node *temp = nullptr;
+    node *prev = nullptr;
+};
+
+void Circular_linked_list :: add(int value)
+{
+    if(head == nullptr)
+    {
+        temp = new node;
+        temp->data = value;
+        tail = temp;
+        head = temp;
+        temp->next = head;
+    }
+    else
+    {
+        temp = new node;
+        temp->data = value;
+        temp->next = head;
+        head = temp;
+        tail->next = head;
+    }
+}
+
+void Circular_linked_list :: del(int value)
+{
+    temp = head;
+
+    // If list is empty
+    if(temp == nullptr)
+    {
+        cout << "List is empty - Nothing to delete" << endl;
+        return;
+    }
+
+    while(true)
+    {
+        // Only one node in the list and to delete that node
+        if(head->data == value && temp == tail)
+        {
+            delete temp;
+            head = nullptr;
+            tail = nullptr;
+            return;
+        }
+
+        // To delete first node
+        if(head->data == value && temp != tail)
+        {
+            tail->next = head->next;
+            head = head->next;
+            delete temp;
+            return;
+        }
+
+        // To delete middle node
+        if(temp->data == value && temp != tail)
+        {
+            prev->next = temp->next;
+            delete temp;
+            return;
+        }
+
+        // To delete last node
+        if(temp->data == value && temp == tail)
+        {
+            tail = prev;
+            tail->next = head;
+            delete temp;
+            return;
+        }
+
+        // If given value is not in list
+        if(temp->data != value && temp == tail)
+        {
+            cout << value << " is not in list to delete" << endl;
+            return;
+        }
+
+        prev = temp;
+        temp = temp->next;
+    }
+}
+
+void Circular_linked_list :: check(int value)
+{
+    temp = head;
+
+    if(temp == nullptr)
+    {
+        cout << "List is empty - Nothing to check" << endl;
+        return;
+    }
+
+    while (true)
+    {
+        if(temp->data == value)
+        {
+            cout << value << " is in list" << endl;
+            return;
+        }
+
+        if(temp->data != value && temp == tail)
+        {
+            cout << value << " is not in list" << endl;
+            return;
+        }
+
+        temp = temp->next;
+    }
+}
+
+void Circular_linked_list :: display()
+{
+    temp = head;
+
+    if(temp == nullptr)
+    {
+        cout << "List is empty - Nothing to display" << endl;
+        return;
+    }
+
+    while (true)
+    {
+        if(temp != tail)
+        {
+            cout << temp->data << endl;
+        }
+
+        if(temp == tail)
+        {
+            cout << temp->data << endl;
+            return;
+        }
+
+        temp = temp->next;
+    }
+}
+
+int main()
+{
+    Circular_linked_list obj;
+
+    obj.add(6);
+    obj.add(9);
+    obj.add(2);
+
+    obj.del(91);
+
+    obj.check(9);
+
+    obj.display();
+}

@@ -1,0 +1,59 @@
+#include <iostream>
+using namespace std;
+
+void swap(int &value1, int &value2)
+{
+    int temp = value1;
+    value1 = value2;
+    value2 = temp;
+}
+
+void insertion_sort(int *array, int total_elements)
+{
+    for(int i=0; i<total_elements-1; i++)
+    {
+        for(int j=i+1; j>0; j--)
+        {
+            if(array[j] < array[j-1])
+            {
+                swap(array[j], array[j-1]);
+            }
+            // For optimization - if no swap occurred the iteration will terminate because here sorted elements are at left side, so no need to check them.
+            else
+            {
+                break;
+            }
+        }
+    }
+}
+
+int main()
+{
+    cout << "Enter no of elements to be sorted" << endl;
+    int total_elements;
+    cin >> total_elements;
+
+    cout << "Enter elements one by one" << endl;
+    int array[total_elements];
+    for(int i=0; i<total_elements; i++)
+    {
+        cin >> array[i];
+    }
+
+    cout << "Elements after sorting - " << endl;
+    insertion_sort(array, total_elements);
+    for(int i=0; i<total_elements; i++)
+    {
+        if(i == total_elements-1)
+        {
+            cout << array[i] << endl;
+        }
+        else
+        {
+            cout << array[i] << ", ";
+        }
+    }
+
+    // Space complexity - O(1)
+    // Time complexity - Best - O(n) / Average & Worst - O(n^2)
+}

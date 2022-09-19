@@ -1,0 +1,57 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    // GETS ARRAY LENGTH FROM THE USER
+    cout << "Enter the length of the array" << endl;
+    int array_length;
+    cin >> array_length;
+
+    // GETS VALUES OF ARRAY FROM USER
+    cout << "Enter " << array_length << " values one by one" << endl;
+    int array[array_length];
+    for(int i=0; i<array_length; i++)
+    {
+        cin >> array[i];
+    }
+
+    cout << "Enter the target value" << endl;
+    int target;
+    cin >> target;
+
+    int val1=0, val2=0, val3=0;
+    int sum = 0;
+    int storev1=0, storev2=0, storev3=0;
+    int optimal_target = 100;
+    int d1=0, d2=0;
+
+    for(int i=0; i<array_length; i++)
+    {
+        for(int j=i+1; j<array_length; j++)
+        {
+            for(int k=j+1; k<array_length; k++)
+            {
+                val1 = array[i];
+                val2 = array[j];
+                val3 = array[k];
+
+                sum = val1+val2+val3;
+
+                d1 = abs(target - optimal_target);
+                d2 = abs(sum - target);
+
+                if(d2 < d1)
+                {
+                    storev1 = val1;
+                    storev2 = val2;
+                    storev3 = val3;
+
+                    optimal_target = sum;
+                }
+            }
+        }
+    }
+
+    cout << "The closest value is - " << optimal_target << " with values [" << storev1 << ", " << storev2 << ", " << storev3 << "]" << endl;
+}

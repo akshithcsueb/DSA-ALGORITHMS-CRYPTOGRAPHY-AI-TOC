@@ -1,0 +1,85 @@
+#include <iostream>
+using namespace std;
+
+struct node
+{
+    int data;
+    node *next;
+};
+
+class linked_list
+{
+public:
+    void add(int value);
+    void reverse();
+    void display();
+
+private:
+    node *head = nullptr;
+    node *prev = nullptr;
+    node *temp = nullptr;
+};
+
+void linked_list :: add(int value)
+{
+    if(head == nullptr)
+    {
+        head = new node;
+        head->data = value;
+        head->next = nullptr;
+    }
+    else
+    {
+        temp = new node;
+        temp->data = value;
+        temp->next = head;
+        head = temp;
+    }
+}
+
+void linked_list :: reverse()
+{
+    prev = head;
+    temp = head->next;
+
+    while(temp != nullptr)
+    {
+        if(head == prev)
+        {
+            prev->next = nullptr;
+            prev = temp;
+        }
+        else
+        {
+            temp = temp->next;
+            prev->next = head;
+            head = prev;
+            prev = temp;
+        }
+    }
+}
+
+void linked_list :: display()
+{
+    temp = head;
+
+    while(temp != nullptr)
+    {
+        cout << temp->data << endl;
+        temp = temp->next;
+    }
+}
+
+int main()
+{
+    linked_list obj;
+
+    obj.add(8);
+    obj.add(7);
+    obj.add(2);
+    obj.add(9);
+
+    obj.reverse();
+
+    obj.display();
+}

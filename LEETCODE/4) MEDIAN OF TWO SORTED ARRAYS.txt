@@ -1,0 +1,118 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    // GET ARRAY1 LENGTH FROM USER
+    cout << "Enter the length of the first array" << endl;
+    int arr_length1;
+    cin >> arr_length1;
+
+    // GET ARRAY1 VALUES FROM USER
+    cout << "Enter the values of array 1 one by one" << endl;
+    int array1[arr_length1];
+    for(int i=0; i<arr_length1; i++)
+    {
+        cin >> array1[i];
+    }
+
+    // GET ARRAY2 LENGTH FROM USER
+    cout << "Enter the length of the second array" << endl;
+    int arr_length2;
+    cin >> arr_length2;
+
+    // GET ARRAY2 VALUES FROM USER
+    cout << "Enter the values of array 2 one by one" << endl;
+    int array2[arr_length2];
+    for(int i=0; i<arr_length2; i++)
+    {
+        cin >> array2[i];
+    }
+
+    // MAKE ONE EMPTY ARRAY FOR SORTING PURPOSE
+    int total_arr_length = arr_length1 + arr_length2;
+    int merged_array[total_arr_length];
+    for(int i=0; i<total_arr_length; i++)
+    {
+        merged_array[i] = 0;
+    }
+    int count = 0;
+    int loc_count = 0;
+
+    // ARRAY1 SORTED INTO MERGED ARRAY
+    for(int i=0; i<arr_length1; i++)
+    {
+        for(int j=0; j<total_arr_length; j++)
+        {
+            if(array1[i] < merged_array[j] || count == loc_count)
+            {
+                for(int k=(total_arr_length-1); k>j; k--)
+                {
+                    merged_array[k] = merged_array[k-1];
+                }
+
+                merged_array[j] = array1[i];
+                count++;
+                break;
+            }
+            else
+            {
+                loc_count++;
+                continue;
+            }
+        }
+
+        loc_count = 0;
+    }
+
+    // ARRAY2 SORTED INTO MERGED ARRAY
+    for(int i=0; i<arr_length2; i++)
+    {
+        for(int j=0; j<total_arr_length; j++)
+        {
+            if(array2[i] < merged_array[j] || count == loc_count)
+            {
+                for(int k=(total_arr_length-1); k>j; k--)
+                {
+                    merged_array[k] = merged_array[k-1];
+                }
+
+                merged_array[j] = array2[i];
+                count++;
+                break;
+            }
+            else
+            {
+                loc_count++;
+                continue;
+            }
+        }
+
+        loc_count = 0;
+    }
+
+    // PRINTING SORTED ARRAY OF TWO ARRAYS
+    cout << "Sorted array is - " << endl;
+
+    for(int i=0; i<total_arr_length; i++)
+    {
+        if(i == total_arr_length-1)
+        {
+            cout << merged_array[i] << endl;
+        }
+        else
+        {
+            cout << merged_array[i] << ", ";
+        }
+    }
+
+    // CALCULATING MEDIAN OF THE SORTED ARRAY
+    int calc = 0;
+    for(int i=0; i<total_arr_length; i++)
+    {
+        calc = calc + merged_array[i];
+    }
+    double median_value = double(calc)/total_arr_length;
+
+    cout << "The median of the merged array is - " << median_value << endl;
+}

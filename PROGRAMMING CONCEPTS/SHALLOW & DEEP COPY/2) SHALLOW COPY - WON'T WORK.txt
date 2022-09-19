@@ -1,0 +1,43 @@
+// EXAMPLE OF SHALLOW COPY - WON'T WORK FINE WITH POINTER VARIABLES.
+#include <iostream>
+using namespace std;
+
+class car
+{
+public:
+    int *x1, x2;
+
+public:
+    car(int a, int b);
+};
+
+car :: car(int a, int b)
+{
+    x1 = new int;
+    *x1 = a;
+    x2 = b;
+}
+
+
+
+int main()
+{
+    car obj1(8, 4);
+
+    cout << *obj1.x1 << endl;
+    cout << obj1.x2 << endl;
+
+    car obj2 = obj1;
+
+    cout << *obj2.x1 << endl;
+    cout << obj2.x2 << endl;
+
+    *obj1.x1 = 125;
+
+    cout << endl << endl;
+
+    cout << *obj1.x1 << endl;
+    cout << obj1.x2 << endl;
+    cout << *obj2.x1 << endl;
+    cout << obj2.x2 << endl;
+}

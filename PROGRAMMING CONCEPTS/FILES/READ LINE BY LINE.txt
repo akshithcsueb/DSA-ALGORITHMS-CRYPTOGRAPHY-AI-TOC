@@ -1,0 +1,22 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+void load_words(string filename)
+{
+    string line;
+
+    ifstream my_file(filename);
+
+    while(getline(my_file, line))
+    {
+        cout << line << endl;
+    }
+
+    my_file.close();
+}
+
+int main()
+{
+    load_words("C:/Users/akshi/OneDrive/Documents/TEMPORARY ASSIGNMENTS/dict.txt");
+}

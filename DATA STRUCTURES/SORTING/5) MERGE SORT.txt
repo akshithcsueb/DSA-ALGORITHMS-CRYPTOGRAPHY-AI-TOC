@@ -1,0 +1,105 @@
+#include <iostream>
+using namespace std;
+
+// This function is used for Sorting and Merging process
+void merge(int *left_array, int *right_array, int *array, int left_size, int right_size)
+{
+    int i = 0; //Pointer on elements of left_array
+    int j = 0; //Pointer on elements of right_array
+    int k = 0; //Pointer on elements of array
+
+    while(i<left_size && j<right_size)
+    {
+        if(left_array[i] <= right_array[j])
+        {
+            array[k] = left_array[i];
+            i++;
+        }
+        else
+        {
+            array[k] = right_array[j];
+            j++;
+        }
+        // By default without any condition we should increment pointer of array to place sorted element.
+        k++;
+    }
+
+    // This While loop executes if any elements left in left_array
+    while(i<left_size)
+    {
+        array[k] = left_array[i];
+        i++;
+        k++;
+    }
+
+    // This While loop executes if any elements left in right_array
+    while(j<right_size)
+    {
+        array[k] = right_array[j];
+        j++;
+        k++;
+    }
+}
+
+// This function is used to divide array into sub arrays until array contains only one element.
+void merge_sort(int *array, int size)
+{
+    // Base condition for recursion to end
+    if(size < 2)
+    {
+        return;
+    }
+
+    int mid = size/2;
+    // Creating two sub arrays
+    int left_array[mid];
+    int right_array[size - mid];
+
+    // Initializing two sub arrays
+    for(int i=0; i<mid; i++)
+    {
+        left_array[i] = array[i];
+    }
+    for(int i=mid; i<size; i++)
+    {
+        right_array[i-mid] = array[i];
+    }
+
+    // Recursive calls to divide left and right arrays furthermore
+    merge_sort(left_array, mid);
+    merge_sort(right_array, size-mid);
+    // Call to Sort and Merge process
+    merge(left_array, right_array, array, mid, size-mid);
+}
+
+int main()
+{
+    cout << "Enter no of elements to be sorted" << endl;
+    int total_elements;
+    cin >> total_elements;
+
+    cout << "Enter elements one by one" << endl;
+    int array[total_elements];
+    for(int i=0; i<total_elements; i++)
+    {
+        cin >> array[i];
+    }
+
+    merge_sort(array, total_elements);
+
+    cout << "Elements after sorting - " << endl;
+    for(int i=0; i<total_elements; i++)
+    {
+        if(i == total_elements-1)
+        {
+            cout << array[i] << endl;
+        }
+        else
+        {
+            cout << array[i] << ", ";
+        }
+    }
+
+    // Space complexity - O(n)
+    // Time complexity - Best, Average, Worst - O(n log n)
+}

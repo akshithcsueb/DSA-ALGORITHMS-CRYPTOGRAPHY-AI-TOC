@@ -1,0 +1,42 @@
+#include <iostream>
+using namespace std;
+
+class Invalid_ID
+{
+public:
+    string msg()
+    {
+        return "YOUR LOGIN ID IS INVALID !!!";
+    }
+};
+
+class car
+{
+public:
+    void add(int x)
+    {
+        cout << x+10 << endl;
+    }
+};
+
+int main()
+{
+    try
+    {
+        int x = 20;
+
+        if(x < 15)
+        {
+            throw Invalid_ID();
+        }
+        else
+        {
+            car obj;
+            obj.add(x);
+        }
+    }
+    catch(Invalid_ID error)
+    {
+        cout << error.msg() << endl;
+    }
+}

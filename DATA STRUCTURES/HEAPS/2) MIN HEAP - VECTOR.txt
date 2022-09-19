@@ -1,0 +1,197 @@
+// MIN HEAP
+#include <iostream>
+#include "vector"
+#include "queue"
+#include "math.h"
+using namespace std;
+
+vector<int> storage;
+queue<int> del_temp_storage;
+int pointer = 0;
+
+void add(int value)
+{
+    if(storage.empty())
+    {
+        storage.push_back(value);
+        pointer++;
+    }
+    else
+    {
+        storage.push_back(value);
+
+        int parent;
+        int temp = pointer;
+
+        while (temp > 0)
+        {
+            if((temp % 2) == 0)
+            {
+                parent = floor(temp/2) - 1;
+            }
+            else
+            {
+                parent = floor(temp/2);
+            }
+
+            if(storage[temp] < storage[parent]) // If you want to have max heap change the sign here to (>)
+            {
+                swap(storage[temp], storage[parent]);
+            }
+            else
+            {
+                break;
+            }
+
+            temp = parent;
+        }
+
+        pointer++;
+    }
+}
+
+void del()
+{
+    // If u want to use max heap change all signs in this function to opposite one but not for pointer checks
+    // If heap is empty
+    if(storage.empty())
+    {
+        cout << "Heap is empty - nothing to delete" << endl;
+        return;
+    }
+
+    // If heap has only one element
+    if(storage.size() == 1)
+    {
+        storage.pop_back();
+        pointer--;
+        return;
+    }
+
+    // If heap has more than one element
+    // The below three lines is to replace last element with first element for preserving complete binary tree property
+    pointer--;
+    storage[0] = storage[pointer];
+    storage.pop_back();
+
+    int parent = 0;
+
+    while(true)
+    {
+        // Finding left child and right child positions
+        int left_child = (2 * (parent+1)) - 1;
+        int right_child = 2 * (parent + 1);
+
+        // Finding minimum child among those two
+        int min_child;
+        // If parent has two children
+        if(left_child < pointer && right_child < pointer)
+        {
+            // Finding which child is smaller
+            if(storage[left_child] < storage[right_child])
+            {
+                min_child = left_child;
+            }
+            else
+            {
+                min_child = right_child;
+            }
+        }
+        // If parent has only left child
+        else if(left_child < pointer && right_child >= pointer)
+        {
+            min_child = left_child;
+        }
+        // If parent has no children
+        else if(left_child >= pointer && right_child >= pointer)
+        {
+            break;
+        }
+
+        // Checking with parent
+        if(storage[min_child] < storage[parent])
+        {
+            swap(storage[min_child], storage[parent]);
+        }
+        else
+        {
+            break;
+        }
+
+        // Updating parent for next iteration
+        parent = min_child;
+    }
+}
+
+void check(int value)
+{
+    // If u want to use max heap change all signs in this function to opposite one but not for pointer checks
+    if(storage.empty())
+    {
+        cout << "Heap is empty - nothing to check" << endl;
+        return;
+    }
+
+    del_temp_storage.push(0);
+
+    while(!del_temp_storage.empty())
+    {
+        int temp = del_temp_storage.front();
+        del_temp_storage.pop();
+        int left_child = (2 * (temp+1)) - 1;
+        int right_child = 2 * (temp+1);
+
+        if(storage[temp] == value)
+        {
+            cout << value << " is in heap" << endl;
+            return;
+        }
+
+        if(left_child < pointer)
+        {
+            if(storage[left_child] <= value)
+            {
+                del_temp_storage.push(left_child);
+            }
+        }
+
+        if(right_child < pointer)
+        {
+            if(storage[right_child] <= value)
+            {
+                del_temp_storage.push(right_child);
+            }
+        }
+    }
+
+    cout << value << " is not in heap" << endl;
+}
+
+void display()
+{
+    for(int i=0; i<pointer; i++)
+    {
+        cout << storage[i] << " ";
+    }
+
+    cout << endl;
+}
+
+int main()
+{
+    add(90);
+    add(89);
+    add(70);
+    add(36);
+    add(85);
+    add(63);
+    add(65);
+    add(21);
+    add(18);
+    add(15);
+    add(75);
+
+    del();
+
+    display();
+}

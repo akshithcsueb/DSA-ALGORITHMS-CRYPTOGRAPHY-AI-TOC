@@ -1,0 +1,97 @@
+#include <iostream>
+using namespace std;
+
+struct node;
+
+class my_stack
+{
+public:
+    void push(int item);
+    void pop();
+    void display();
+
+    node* h_stack = nullptr;
+    node* tail = nullptr;
+    node* cur_node = nullptr;
+    node* disp_node = nullptr;
+};
+
+struct node
+{
+    int data;
+    node* next;
+};
+
+void my_stack :: push(int item)
+{
+    if(cur_node == tail)
+    {
+        node *temp = new node;
+        temp -> data = item;
+        temp -> next = tail;
+
+        h_stack = temp;
+        cur_node = temp;
+        cout << "SUCCESSFULLY PUSHED " << item << endl;
+    }
+    else
+    {
+        node *temp = new node;
+        temp -> data = item;
+        temp -> next = h_stack;
+
+        h_stack = temp;
+        cur_node = temp;
+        cout << "SUCCESSFULLY PUSHED " << item << endl;
+    }
+}
+
+void my_stack :: pop()
+{
+    if(cur_node == tail)
+    {
+        cout << "STACK IS EMPTY - NOTHING TO DELETE" << endl;
+        return;
+    }
+
+    if(cur_node -> next == tail)
+    {
+        cout << "SUCCESSFULLY POPED " << cur_node -> data << endl;
+        delete cur_node;
+        cur_node = nullptr;
+        h_stack = nullptr;
+    }
+    else
+    {
+        h_stack = h_stack -> next;
+        cout << "SUCCESSFULLY POPED " << cur_node -> data << endl;
+        delete cur_node;
+        cur_node = h_stack;
+    }
+}
+
+void my_stack :: display()
+{
+    cout << "THE ITEMS IN THE STACK ARE - " << endl;
+
+    disp_node = cur_node;
+
+    while(disp_node != tail)
+    {
+        cout << disp_node -> data << endl;
+        disp_node = disp_node -> next;
+    }
+
+}
+
+int main()
+{
+    my_stack orders;
+
+    orders.push(3);
+    orders.push(7);
+    orders.push(2);
+    orders.pop();
+
+    orders.display();
+}

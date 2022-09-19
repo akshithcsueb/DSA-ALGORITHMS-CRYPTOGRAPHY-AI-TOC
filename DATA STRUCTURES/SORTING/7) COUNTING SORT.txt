@@ -1,0 +1,92 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void count_sort(int array[], int size)
+{
+    int start_value = array[0];
+    int end_value = array[0];
+
+    // Finding start and end value in given array
+    for(int i=0; i<size; i++)
+    {
+        if(array[i] < start_value)
+        {
+            start_value = array[i];
+        }
+        else if(array[i] > end_value)
+        {
+            end_value = array[i];
+        }
+    }
+
+    // If given array has negative values this will execute to normalize the array to convert into positive array
+    if(start_value < 0)
+    {
+        for(int i=0; i<size; i++)
+        {
+            array[i] = array[i] + abs(start_value);
+        }
+
+        end_value = end_value + abs(start_value);
+    }
+
+    // Creating an array and initializing them with 0
+    int update_array[end_value+1];
+    for(int i=0; i<=end_value; i++)
+    {
+        update_array[i] = 0;
+    }
+
+    // For loop to have count of each value in update_array for the given array
+    for(int i=0; i<size; i++)
+    {
+        update_array[array[i]]++;
+    }
+
+    // Placing the values count number of times in update array
+    int index = 0;
+    for(int i=0; i<end_value+1; i++)
+    {
+        while(update_array[i] != 0)
+        {
+            array[index] = i;
+            index++;
+            update_array[i]--;
+        }
+    }
+
+    // If given array has negative values we are normalizing the array by converting back to original from positive to negative
+    if(start_value < 0)
+    {
+        for(int i=0; i<size; i++)
+        {
+            array[i] = array[i] - abs(start_value);
+        }
+    }
+}
+
+int main()
+{
+    cout << "How many elements you need to sort - " << endl;
+    int size;
+    cin >> size;
+
+    cout << "Enter the elements you need to sort one by one" << endl;
+    int array[size];
+    for(int i=0; i<size; i++)
+    {
+        int temp;
+        cin >> temp;
+        array[i] = temp;
+    }
+
+    count_sort(array, size);
+
+    for(int i=0; i<size; i++)
+    {
+        cout << array[i] << ", ";
+    }
+}
+
+// Space - O(end_value+1)
+// Time - O(n+k)

@@ -1,0 +1,70 @@
+#include <iostream>
+using namespace std;
+
+const int max_size = 10;
+
+class my_queue
+{
+public:
+    int arr_queue[max_size];
+    int point = 0;
+
+    void enqueue(int item);
+    void dequeue();
+    void display();
+};
+
+void my_queue :: enqueue(int item)
+{
+    if(point == max_size)
+    {
+        cout << "QUEUE IS FULL, CANNOT ADD " << item << endl;
+    }
+    else
+    {
+        arr_queue[point] = item;
+        point++;
+        cout << "SUCCESSFULLY ENQUEUED " << item << endl;
+    }
+}
+
+void my_queue :: dequeue()
+{
+    if(point == 0)
+    {
+        cout << "QUEUE IS EMPTY - NOTHING TO DEQUEUE" << endl;
+    }
+    else
+    {
+        cout << "SUCCESSFULLY DEQUEUED " << arr_queue[0] << endl;
+        for (int i=0; i<point; i++)
+        {
+            arr_queue[i] = arr_queue[i+1];
+        }
+
+        point--;
+    }
+}
+
+void my_queue :: display()
+{
+    cout << "THE ITEMS IN THE QUEUE ARE - " << endl;
+
+    for(int i=0; i<point; i++)
+    {
+        cout << arr_queue[i] << endl;
+    }
+}
+
+int main()
+{
+    my_queue orders;
+
+    orders.enqueue(7);
+    orders.enqueue(2);
+    orders.enqueue(5);
+    orders.dequeue();
+
+
+    orders.display();
+}

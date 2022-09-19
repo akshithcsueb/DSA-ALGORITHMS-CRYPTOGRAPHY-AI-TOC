@@ -1,0 +1,108 @@
+#include <iostream>
+using namespace std;
+
+const int max_length = 7;
+
+class sorted_list
+{
+private:
+    int my_list[max_length];
+    int length;
+
+public:
+    void set_my_list (int my_list[max_length])
+    {
+        this -> my_list[max_length] = my_list[max_length];
+    }
+
+    void set_length (int length)
+    {
+        this -> length = length;
+    }
+
+    void put(int item)
+    {
+       if(length == max_length)
+         {
+            cout << "List is full, So " << item << " cannot be added !!!" << endl << endl;
+            return;
+         }
+
+       for(int i=0; i<length; i++)
+       {
+
+       while(my_list[i] > item)
+       {
+
+           for(int a=length; a>i; a--)
+           {
+               my_list[a] = my_list[a-1];
+           }
+
+           my_list[i] = item;
+           length++;
+           return;
+
+       }
+       }
+
+       my_list[length] = item;
+       length++;
+       return;
+
+    }
+
+    void del(int item)
+    {
+        for(int i=0; i<length; i++)
+        {
+            while (my_list[i] == item)
+            {
+                for(int b=i; b<length-1; b++)
+                {
+                    my_list[b] = my_list[b+1];
+                }
+
+            length--;
+            return;
+
+            }
+        }
+    }
+
+    void check(int item)
+    {
+        for(int i=0; i<length; i++)
+        {
+            if(my_list[i] == item)
+            {
+                cout << item << " is in list" << endl << endl;
+                return;
+            }
+        }
+
+        cout << item << " not in list" << endl << endl;
+    }
+
+    void display()
+    {
+        for(int i=0; i<length; i++)
+        {
+            cout << my_list[i] << endl;
+        }
+    }
+};
+
+int main()
+{
+    sorted_list values;
+
+    values.set_length(0);
+
+    values.put(3);
+    values.put(5);
+    values.put(6);
+
+
+    values.display();
+}

@@ -1,0 +1,154 @@
+#include <iostream>
+using namespace std;
+
+struct node;
+
+class doubly_linked_list
+{
+public:
+    void add(int value);
+    void del(int value);
+    void check(int value);
+    void display();
+
+    node *head = nullptr;
+    node *temp_node = nullptr;
+};
+
+struct node
+{
+    node *prev;
+    int data;
+    node *next;
+};
+
+void doubly_linked_list :: add(int value)
+{
+    if(head == nullptr)
+    {
+        head = new node;
+        head->data = value;
+        head->prev = nullptr;
+        head->next = nullptr;
+    }
+    else
+    {
+        temp_node = new node;
+        temp_node->data = value;
+
+        head->prev = temp_node;
+        temp_node->next = head;
+        temp_node->prev = nullptr;
+        head = temp_node;
+    }
+}
+
+void doubly_linked_list :: del(int value)
+{
+    temp_node = head;
+
+    if(temp_node == nullptr)
+    {
+        cout << "List is empty - nothing to delete" << endl;
+        return;
+    }
+
+    while(temp_node != nullptr)
+    {
+        // To delete head node
+        if(head->data == value && temp_node->next != nullptr)
+        {
+            temp_node->next->prev = nullptr;
+            head = temp_node->next;
+
+            delete temp_node;
+            return;
+        }
+
+        // If only one node exist in the list and to delete that node
+        if(temp_node->data == value && head->data == value && temp_node->next == nullptr)
+        {
+            delete temp_node;
+            head = nullptr;
+            return;
+        }
+
+        // To delete last node
+        if(temp_node->data == value && temp_node->next == nullptr)
+        {
+            temp_node->prev->next = nullptr;
+
+            delete temp_node;
+            return;
+        }
+
+        // To delete middle node
+        if(temp_node->data == value && temp_node->next != nullptr)
+        {
+            temp_node->prev->next = temp_node->next;
+            temp_node->next->prev = temp_node->prev;
+
+            delete temp_node;
+            return;
+        }
+
+        temp_node = temp_node->next;
+    }
+
+    cout << value << " is not in list to delete" << endl;
+}
+
+void doubly_linked_list :: check(int value)
+{
+    temp_node = head;
+
+    if(temp_node == nullptr)
+    {
+        cout << "List is empty - nothing to check" << endl;
+        return;
+    }
+
+    while(temp_node != nullptr)
+    {
+        if(temp_node->data == value)
+        {
+            cout << value << " is in list" << endl;
+            return;
+        }
+
+        temp_node = temp_node->next;
+    }
+
+    cout << value << " is not in list" << endl;
+}
+
+void doubly_linked_list :: display()
+{
+    temp_node = head;
+
+    if(temp_node == nullptr)
+    {
+        cout << "List is empty - nothing to display" << endl;
+        return;
+    }
+
+    while(temp_node != nullptr)
+    {
+        cout << temp_node->data << endl;
+
+        temp_node = temp_node->next;
+    }
+}
+
+int main()
+{
+    doubly_linked_list orders;
+
+    orders.add(30);
+    orders.add(20);
+    orders.add(10);
+
+    orders.check(40);
+
+    orders.display();
+}

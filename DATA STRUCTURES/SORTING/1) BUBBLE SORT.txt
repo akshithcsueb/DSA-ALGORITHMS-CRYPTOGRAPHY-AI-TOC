@@ -1,0 +1,64 @@
+#include <iostream>
+using namespace std;
+
+void swap(int &value1, int &value2)
+{
+    int temp = value1;
+    value1 = value2;
+    value2 = temp;
+}
+
+void bubble_sort(int *array, int total_elements)
+{
+    for(int i=0; i<total_elements; i++)
+    {
+        int swap_flag = 0;
+
+        // For optimization we are subtracting with i - As sorted elements will be right side no need to check again.
+        for(int j=0; j<total_elements-1-i; j++)
+        {
+            if(array[j] > array[j+1])
+            {
+                swap(array[j], array[j+1]);
+                swap_flag = 1;
+            }
+        }
+        
+        // For optimization we are using swap_flag which indicates to terminate the program if no swaps happened in one complete iteration.
+        if(swap_flag == 0)
+        {
+            return;
+        }
+    }
+}
+
+int main()
+{
+    cout << "Enter no of elements to be sorted" << endl;
+    int total_elements;
+    cin >> total_elements;
+
+    cout << "Enter elements one by one" << endl;
+    int array[total_elements];
+    for(int i=0; i<total_elements; i++)
+    {
+        cin >> array[i];
+    }
+
+    cout << "Elements after sorting - " << endl;
+    bubble_sort(array, total_elements);
+    for(int i=0; i<total_elements; i++)
+    {
+        if(i == total_elements-1)
+        {
+            cout << array[i] << endl;
+        }
+        else
+        {
+            cout << array[i] << ", ";
+        }
+    }
+    
+    // Space complexity - O(1)
+    // Time complexity - Best - O(n) / Average & Worst - O(n^2)
+}

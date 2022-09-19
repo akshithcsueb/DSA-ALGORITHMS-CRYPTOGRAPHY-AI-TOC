@@ -1,0 +1,138 @@
+#include <iostream>
+using namespace std;
+
+struct node;
+
+class linked_list
+{
+public:
+    void add(int value);
+    void del(int value);
+    void check(int value);
+    void display();
+
+    node *head = nullptr;
+    node *prev_node = nullptr;
+    node *temp_node = nullptr;
+};
+
+struct node
+{
+    int data;
+    node *next;
+};
+
+void linked_list :: add(int value)
+{
+    if(head == nullptr)
+    {
+        head = new node;
+        head->data = value;
+        head->next = nullptr;
+    }
+    else
+    {
+        temp_node = new node;
+        temp_node->data = value;
+        temp_node->next = head;
+        head = temp_node;
+    }
+}
+
+void linked_list :: del(int value)
+{
+    temp_node = head;
+
+    if(temp_node == nullptr)
+    {
+        cout << "List is empty - nothing to delete" << endl;
+        return;
+    }
+
+    while(temp_node != nullptr)
+    {
+        if(head->data == value)
+        {
+            head = temp_node->next;
+
+            delete temp_node;
+            return;
+        }
+
+        if(temp_node->data == value && temp_node->next == nullptr)
+        {
+            prev_node->next = nullptr;
+
+            delete temp_node;
+            return;
+        }
+
+        if(temp_node->data == value && temp_node->next != nullptr)
+        {
+            prev_node->next = temp_node->next;
+
+            delete temp_node;
+            return;
+        }
+
+        prev_node = temp_node;
+        temp_node = temp_node->next;
+    }
+
+    cout << value << " is not available to delete" << endl;
+}
+
+void linked_list :: check(int value)
+{
+    temp_node = head;
+
+    if(temp_node == nullptr)
+    {
+        cout << "List is empty - nothing to check!!!" << endl;
+        return;
+    }
+
+    while(temp_node != nullptr)
+    {
+        if(temp_node->data == value)
+        {
+            cout << value << " is in list" << endl;
+            return;
+        }
+
+        temp_node = temp_node->next;
+    }
+
+    cout << value << " is not in list" << endl;
+}
+
+void linked_list :: display()
+{
+    temp_node = head;
+
+    if(temp_node == nullptr)
+    {
+        cout << "List is empty - nothing to show!!!" << endl;
+        return;
+    }
+
+    while(temp_node != nullptr)
+    {
+        cout << temp_node -> data << endl;
+
+        temp_node = temp_node->next;
+    }
+}
+
+int main()
+{
+    linked_list orders;
+
+    orders.add(5);
+    orders.add(10);
+    orders.add(25);
+
+    orders.check(22);
+
+    orders.display();
+}

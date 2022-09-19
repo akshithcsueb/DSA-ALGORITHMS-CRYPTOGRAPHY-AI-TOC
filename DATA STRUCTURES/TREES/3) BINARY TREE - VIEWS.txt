@@ -1,0 +1,416 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <map>
+using namespace std;
+
+struct node
+{
+    node *left = nullptr;
+    int data;
+    node *right = nullptr;
+};
+
+class binary_tree
+{
+public:
+    void add(int value);
+    void del(int value);
+    void check(int value);
+    void display(int order);
+    void left_side_view();
+    void right_side_view();
+    void top_view();
+    void bottom_view();
+
+private:
+    node *root = nullptr;
+    node *temp = nullptr;
+    vector <int> view; // LEFT & RIGHT SIDE VIEWS DS
+    queue <pair<node*, int>> all_elements; // TOP VIEW DS
+    map <int, int> top_elements; // TOP VIEW DS
+    node* del_helper(node *tree, int value);
+    node* del_find_right_min(node *tree);
+    void display_helper(node *tree, int order);
+    void left_side_view_helper(node *tree, int level);
+    void right_side_view_helper(node *tree, int level);
+    void top_view_helper(node *tree);
+    void bottom_view_helper(node *tree);
+};
+
+void binary_tree :: add(int value)
+{
+    if(root == nullptr)
+    {
+        root = new node;
+        root->data = value;
+    }
+    else
+    {
+        temp = root;
+
+        while(true)
+        {
+            if(value < temp->data)
+            {
+                if(temp->left == nullptr)
+                {
+                    temp->left = new node;
+                    temp = temp->left;
+                    temp->data = value;
+                    return;
+                }
+
+                temp = temp->left;
+            }
+            else if(value > temp->data)
+            {
+                if(temp->right == nullptr)
+                {
+                    temp->right = new node;
+                    temp = temp->right;
+                    temp->data = value;
+                    return;
+                }
+
+                temp = temp->right;
+            }
+        }
+    }
+}
+
+void binary_tree :: del(int value)
+{
+    if(root == nullptr)
+    {
+        cout << "Tree is empty - nothing to delete" << endl;
+    }
+    else
+    {
+        del_helper(root, value);
+    }
+}
+
+node* binary_tree :: del_helper(node *tree, int value)
+{
+    if(value < tree->data)
+    {
+        tree->left = del_helper(tree->left, value);
+    }
+    else if(value > tree->data)
+    {
+        tree->right = del_helper(tree->right, value);
+    }
+    else if(value == tree->data)
+    {
+        if(tree->left == nullptr && tree->right == nullptr)
+        {
+            delete tree;
+            tree = nullptr;
+        }
+        else if(tree->left == nullptr && tree->right != nullptr)
+        {
+            temp = tree;
+            temp = temp->right;
+            delete tree;
+            tree = temp;
+        }
+        else if(tree->left != nullptr && tree->right == nullptr)
+        {
+            temp = tree;
+            temp = temp->left;
+            delete tree;
+            tree = temp;
+        }
+        else if(tree->left != nullptr && tree->right != nullptr)
+        {
+            temp = del_find_right_min(tree->right);
+
+            tree->data = temp->data;
+            tree->right = del_helper(tree->right, tree->data);
+        }
+
+    }
+    return tree;
+}
+
+node* binary_tree :: del_find_right_min(node *tree)
+{
+    while(tree->left != nullptr)
+    {
+        tree = tree->left;
+    }
+
+    return tree;
+}
+
+void binary_tree :: check(int value)
+{
+    if(root == nullptr)
+    {
+        cout << "Tree is empty - nothing to check" << endl;
+        return;
+    }
+
+    temp = root;
+
+    while(temp != nullptr)
+    {
+        if(value == temp->data)
+        {
+            cout << value << " is in tree" << endl;
+            return;
+        }
+        else if(value < temp->data)
+        {
+            temp = temp->left;
+        }
+        else if(value > temp->data)
+        {
+            temp = temp->right;
+        }
+    }
+
+    cout << value << " is not in tree" << endl;
+}
+
+void binary_tree :: display(int order)
+{
+    if(root == nullptr)
+    {
+        cout << "Tree is empty - nothing to display" << endl;
+        return;
+    }
+    else
+    {
+        display_helper(root, order);
+    }
+}
+
+void binary_tree :: display_helper(node *tree, int order)
+{
+    if(tree == nullptr)
+    {
+        return;
+    }
+
+    if(order == 0)
+    {
+        cout << tree->data << endl;
+        display_helper(tree->left, order);
+        display_helper(tree->right, order);
+    }
+    else if(order == 1)
+    {
+        display_helper(tree->left, order);
+        cout << tree->data << endl;
+        display_helper(tree->right, order);
+    }
+    else if(order == 2)
+    {
+        display_helper(tree->left, order);
+        display_helper(tree->right, order);
+        cout << tree->data << endl;
+    }
+}
+
+void binary_tree :: left_side_view()
+{
+    if(root == nullptr)
+    {
+        cout << "Tree is empty - I can't display left_side_view";
+        return;
+    }
+    else
+    {
+        left_side_view_helper(root, 0);
+
+        for(auto i=view.begin(); i!=view.end(); i++)
+        {
+            cout << *i << endl;
+        }
+
+        view.clear();
+    }
+}
+
+void binary_tree :: left_side_view_helper(node *tree, int level)
+{
+    if(tree == nullptr)
+    {
+        return;
+    }
+    else
+    {
+        if(view.size() == level)
+        {
+            view.push_back(tree->data);
+        }
+        left_side_view_helper(tree->left, level+1);
+        left_side_view_helper(tree->right, level+1);
+    }
+}
+
+void binary_tree :: right_side_view()
+{
+    if(root == nullptr)
+    {
+        cout << "Tree is empty - I can't display right_side_view" << endl;
+        return;
+    }
+    else
+    {
+        right_side_view_helper(root, 0);
+
+        for(auto i=view.begin(); i!=view.end(); i++)
+        {
+            cout << *i << endl;
+        }
+
+        view.clear();
+    }
+}
+
+void binary_tree :: right_side_view_helper(node *tree, int level)
+{
+    if(tree == nullptr)
+    {
+        return;
+    }
+
+    if(view.size() == level)
+    {
+        view.push_back(tree->data);
+    }
+    right_side_view_helper(tree->right, level+1);
+    right_side_view_helper(tree->left, level+1);
+}
+
+void binary_tree :: top_view()
+{
+    if(root == nullptr)
+    {
+        cout << "Tree is empty - I can't display top view" << endl;
+        return;
+    }
+    else
+    {
+        top_view_helper(root);
+    }
+}
+
+void binary_tree :: top_view_helper(node *tree)
+{
+    // Initial push of root to queue
+    all_elements.push({tree, 0});
+
+    // This while loop continues until the queue becomes empty
+    while(!all_elements.empty())
+    {
+        // Takes one pair into consideration, I mean a node
+        auto i = all_elements.front();
+        // I am popping the pair that we considered
+        all_elements.pop();
+
+        // We are splitting the values in the pair we considered
+        temp = i.first;
+        int line = i.second;
+
+        // The if condition is to check whether line is present or not in map, if not present it will add
+        if(top_elements.find(line) == top_elements.end())
+        {
+            top_elements.insert(pair<int, int> (line, temp->data));
+        }
+
+        // Takes left address of the current node
+        if(temp->left != nullptr)
+        {
+            all_elements.push({temp->left, line-1});
+        }
+        // Takes right address of the current node
+        if(temp->right != nullptr)
+        {
+            all_elements.push({temp->right, line+1});
+        }
+    }
+
+    // MAP WILL ALWAYS SHOW ITS ELEMENTS IN ORDERED WAY, print all values that we stored in map
+    for(auto i = top_elements.begin(); i != top_elements.end(); i++)
+    {
+        cout << i->second << endl;
+    }
+
+    //Deallocating allocated memory
+    top_elements.clear();
+}
+
+void binary_tree :: bottom_view()
+{
+    if(root == nullptr)
+    {
+        cout << "Tree is empty - I can't display bottom view" << endl;
+        return;
+    }
+    else
+    {
+        bottom_view_helper(root);
+    }
+}
+
+void binary_tree :: bottom_view_helper(node *tree)
+{
+    // Pushing root pair into queue
+    all_elements.push({tree, 0});
+
+    // This loops runs until queue gets empty
+    while(!all_elements.empty())
+    {
+        // Considering one pair in queue
+        auto i = all_elements.front();
+        // Popping the pair we considered
+        all_elements.pop();
+
+        // Splitting values in the pair we considered
+        temp = i.first;
+        int line = i.second;
+
+        // Updating the values to map, So that we will get bottom most elements
+        top_elements[line] = temp->data;
+
+        // Considers left address of current node
+        if(temp->left != nullptr)
+        {
+            all_elements.push({temp->left, line-1});
+        }
+        // Considers right address of current node
+        if(temp->right != nullptr)
+        {
+            all_elements.push({temp->right, line+1});
+        }
+    }
+
+    // Printing all elements we stored in map, automatically by order wise
+    for(auto i = top_elements.begin(); i != top_elements.end(); i++)
+    {
+        cout << i->second << endl;
+    }
+
+    //DEALLOCATING MEMORY
+    top_elements.clear();
+}
+
+int main()
+{
+     binary_tree obj;
+
+     obj.add(8);
+     obj.add(5);
+     obj.add(2);
+     obj.add(7);
+     obj.add(19);
+     obj.add(12);
+     obj.add(21);
+
+     obj.top_view();
+     obj.bottom_view();
+}

@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+class test
+{
+public:
+    int num1;
+    int num2;
+
+    test();
+};
+
+// DEFAULT CONSTRUCTOR
+test :: test()
+{
+    num1 = 2;
+    num2 = 5;
+}
+
+int main()
+{
+    test obj;
+
+    cout << obj.num1 << endl;
+    cout << obj.num2 << endl;
+}
